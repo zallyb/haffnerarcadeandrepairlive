@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arcade, Pinball & PC Repair in the Poconos | Haffner Arcade & Pinball Repair</title>
+<meta name="description" content="Arcade, pinball, PC and VR repair in Stroudsburg, PA and the Poconos. Component-level PCB diagnostics, CRT rebuilds, micro-soldering, custom multicades, and emergency dispatch for short-term rentals and game rooms.">
+<meta name="theme-color" content="#0b0e14">
+<meta property="og:title" content="Haffner Arcade & Pinball Repair - PC, VR & Electronics Specialist">
+<meta property="og:description" content="Pinball, arcade, PC and VR repair across the Poconos and Tri-State area.">
+<meta property="og:type" content="website">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Haffner Arcade & Pinball Repair - PC, VR & Electronics Specialist",
+  "founder": { "@type": "Person", "name": "Zak Haffner" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Stroudsburg", "addressRegion": "PA", "addressCountry": "US" },
+  "areaServed": ["Stroudsburg PA", "Pocono Mountains", "Tri-State Area"],
+  "makesOffer": ["Arcade repair", "Pinball repair", "CRT rebuild", "PC repair", "VR repair", "Micro-soldering", "Custom arcade fabrication", "Commercial game room maintenance"]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cabinet: { 950: '#090c12', 900: '#0d1119', 800: '#131a25', 700: '#1c2634', 600: '#2a3748' },
+          bulb:    { 400: '#ffbf47', 500: '#ffa81f', 600: '#e58f00' },   // pinball incandescent / CRT amber
+          silicon: { 400: '#4fd8ff', 500: '#22c1ee', 600: '#0ea5d4' }    // VR / PCB cyan
+        },
+        fontFamily: {
+          display: ['"Chakra Petch"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          body: ['"IBM Plex Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 1rem; }
+  body { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; }
+
+  /* PCB trace background for the hero */
+  .pcb {
+    background-image:
+      linear-gradient(to right, rgba(79,216,255,.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(79,216,255,.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(ellipse at 70% 30%, #000 0%, transparent 70%);
+            mask-image: radial-gradient(ellipse at 70% 30%, #000 0%, transparent 70%);
+  }
+  /* CRT scanlines over the hero headline panel */
+  .scan::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+    background: repeating-linear-gradient(to bottom, rgba(0,0,0,.22) 0 1px, transparent 1px 3px);
+  }
+  /* The one moment of motion: the phosphor cursor in the hero */
+  @keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
+  .cursor { animation: blink 1.1s steps(1) infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .cursor { animation: none; }
+  }
+  .path-panel[hidden] { display: none; }
+  :focus-visible { outline: 2px solid #4fd8ff; outline-offset: 3px; }
+</style>
+</head>
+
+<body class="bg-cabinet-950 text-slate-300 antialiased">
+
+<a href="#triage" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-bulb-500 focus:px-4 focus:py-2 focus:text-cabinet-950">Skip to service request</a>
+
+<!-- Top bar -->
+<header class="border-b border-cabinet-700/70 bg-cabinet-950/80 backdrop-blur-md sticky top-0 z-40">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+    <a href="#top" class="font-display text-lg font-semibold tracking-tight text-white flex items-center gap-2">
+      <svg class="w-5 h-5 text-bulb-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      Haffner <span class="text-bulb-400">Arcade &amp; Pinball</span> Repair
+    </a>
+    <a href="#triage" class="hidden font-display text-sm font-medium text-silicon-400 hover:text-silicon-500 sm:inline">Request service</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- 1. HERO -->
+<section class="relative overflow-hidden border-b border-cabinet-700/50">
+  <div class="pcb absolute inset-0" aria-hidden="true"></div>
+  <div class="relative mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 sm:py-24 lg:grid-cols-5">
+    <div class="lg:col-span-3">
+      <h1 class="font-display text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+        The Premier Arcade, Pinball &amp; PC Repair in the Poconos &amp; Tri-State.<span class="cursor ml-1 inline-block h-[0.85em] w-[0.38em] translate-y-[0.1em] bg-bulb-400 align-baseline" aria-hidden="true"></span>
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-slate-400">
+        Component-level PCB diagnostics, CRT rebuilds, and custom arcade fabrication by Zak Haffner.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a href="#triage" class="rounded-md bg-bulb-500 px-7 py-3.5 font-display text-base font-semibold text-cabinet-950 shadow-[0_0_0_1px_rgba(255,191,71,.5),0_8px_30px_-8px_rgba(255,168,31,.55)] transition hover:bg-bulb-400">Request Service</a>
+      </div>
+    </div>
+
+    <!-- CRT diagnostic panel: bridges retro and modern -->
+    <div class="lg:col-span-2 relative group" aria-hidden="true">
+      <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-bulb-500/30 to-silicon-500/30 blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+      <div class="scan relative overflow-hidden rounded-2xl border border-cabinet-600 bg-cabinet-900 shadow-[inset_0_0_60px_rgba(34,193,238,.08)]">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Macro view of a printed circuit board" class="h-40 w-full object-cover opacity-60 mix-blend-luminosity">
+        <div class="p-5 font-mono text-sm leading-7 border-t border-cabinet-700/50">
+          <p class="text-slate-500">bench diagnostics</p>
+          <p><span class="text-silicon-400">flipper coil</span> <span class="text-slate-500">.....</span> <span class="text-bulb-400">rebuilt</span></p>
+          <p><span class="text-silicon-400">CRT discharge</span> <span class="text-slate-500">...</span> <span class="text-bulb-400">safe</span></p>
+          <p><span class="text-silicon-400">motherboard</span> <span class="text-slate-500">.....</span> <span class="text-bulb-400">traced</span></p>
+          <p><span class="text-silicon-400">VR headset</span> <span class="text-slate-500">......</span> <span class="text-bulb-400">reflowed</span></p>
+          <p><span class="text-silicon-400">game room</span> <span class="text-slate-500">.......</span> <span class="text-bulb-400">online</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. TRIAGE INTAKE -->
+<section id="triage" class="bg-cabinet-900 border-b border-cabinet-700/50">
+  <div class="mx-auto max-w-6xl px-5 py-16 sm:py-20">
+    <h2 class="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">What do you need fixed?</h2>
+    <p class="mt-3 max-w-2xl text-slate-400">Pick the option that fits. Home repairs go through the request form. Rental and commercial emergencies go straight to the dispatch line.</p>
+
+    <div class="mt-10 grid gap-5 md:grid-cols-2" role="group" aria-label="Choose a service path">
+      <button type="button" id="btn-a" data-path="a" aria-expanded="false" aria-controls="path-a"
+        class="path-btn group relative overflow-hidden rounded-xl border border-cabinet-600 bg-cabinet-800 p-6 text-left transition hover:border-silicon-500/70 hover:shadow-[0_0_30px_-5px_rgba(79,216,255,0.15)]">
+        <span class="block font-display text-xl font-semibold text-white">Standard Service &amp; Repair</span>
+        <span class="mt-1 block text-sm text-slate-400">Residential and home games. Arcade cabinets, pinball machines, PCs, VR.</span>
+      </button>
+      <button type="button" id="btn-b" data-path="b" aria-expanded="false" aria-controls="path-b"
+        class="path-btn group relative overflow-hidden rounded-xl border border-cabinet-600 bg-cabinet-800 p-6 text-left transition hover:border-bulb-500/70 hover:shadow-[0_0_30px_-5px_rgba(255,191,71,0.15)]">
+        <span class="block font-display text-xl font-semibold text-white">Commercial Venue &amp; STR Emergency Dispatch</span>
+        <span class="mt-1 block text-sm text-slate-400">Airbnbs, bars, and arcades with a machine that is down.</span>
+      </button>
+    </div>
+
+    <!-- Path A -->
+    <div id="path-a" class="path-panel mt-6" hidden>
+      <div class="rounded-xl border border-silicon-600/40 bg-cabinet-950 p-6 sm:p-8 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-silicon-500/5 rounded-full blur-3xl"></div>
+        <h3 class="font-display text-2xl font-semibold text-white relative z-10">Request a repair</h3>
+        <p class="mt-1 text-sm text-slate-400 relative z-10">Tell us what is going on and Zak will reply by email.</p>
+
+        <form id="repair-form" action="https://formspree.io/f/mnpplvor" method="POST" class="mt-6 grid gap-5 sm:grid-cols-2 relative z-10">
+          <input type="hidden" name="_subject" value="New repair request - Haffner Arcade &amp; Pinball Repair">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+
+          <div>
+            <label for="name" class="mb-1.5 block text-sm font-medium text-slate-200">Full name</label>
+            <input id="name" name="name" type="text" required autocomplete="name"
+              class="w-full rounded-md border border-cabinet-600 bg-cabinet-800/50 px-4 py-3 text-white placeholder-slate-500 backdrop-blur-sm focus:border-silicon-500 focus:outline-none focus:ring-1 focus:ring-silicon-500 transition-colors">
+          </div>
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-medium text-slate-200">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email"
+              class="w-full rounded-md border border-cabinet-600 bg-cabinet-800/50 px-4 py-3 text-white placeholder-slate-500 backdrop-blur-sm focus:border-silicon-500 focus:outline-none focus:ring-1 focus:ring-silicon-500 transition-colors">
+          </div>
+          <div class="sm:col-span-2">
+            <label for="device" class="mb-1.5 block text-sm font-medium text-slate-200">Device type</label>
+            <select id="device" name="device_type" required
+              class="w-full rounded-md border border-cabinet-600 bg-cabinet-800/50 px-4 py-3 text-white backdrop-blur-sm focus:border-silicon-500 focus:outline-none focus:ring-1 focus:ring-silicon-500 transition-colors">
+              <option value="" disabled selected>Select a device</option>
+              <option>Arcade</option>
+              <option>Pinball</option>
+              <option>PC</option>
+              <option>VR</option>
+              <option>Custom Build</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="issue" class="mb-1.5 block text-sm font-medium text-slate-200">Issue description</label>
+            <textarea id="issue" name="message" rows="5" required placeholder="Make, model, what it does, and what it should do."
+              class="w-full rounded-md border border-cabinet-600 bg-cabinet-800/50 px-4 py-3 text-white placeholder-slate-500 backdrop-blur-sm focus:border-silicon-500 focus:outline-none focus:ring-1 focus:ring-silicon-500 transition-colors"></textarea>
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" id="submit-btn" class="rounded-md bg-silicon-500 px-7 py-3 font-display text-base font-semibold text-cabinet-950 transition hover:bg-silicon-400 disabled:opacity-60">Send repair request</button>
+          </div>
+          <div id="form-status" role="status" aria-live="polite" tabindex="-1" class="sm:col-span-2 hidden rounded-md border px-4 py-3 text-base"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Path B -->
+    <div id="path-b" class="path-panel mt-6" hidden>
+      <div class="rounded-xl border border-bulb-500/40 bg-cabinet-950 p-8 text-center sm:p-12 relative overflow-hidden">
+        <div class="absolute -top-32 -left-32 w-64 h-64 bg-bulb-500/10 rounded-full blur-3xl"></div>
+        <p class="mx-auto max-w-xl text-lg text-slate-300 relative z-10">Immediate dispatch for short-term rentals and commercial game rooms. Revenue down? Call now for rapid response.</p>
+        <div id="dispatch-slot" class="mt-6 relative z-10" aria-live="polite"></div>
+        <p class="mt-3 text-sm text-slate-400 relative z-10">Emergency dispatch line. Tap to call from your phone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. SERVICES GRID -->
+<section id="services" class="mx-auto max-w-6xl px-5 py-16 sm:py-24">
+  <h2 class="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">Repair and build services in Stroudsburg and the Poconos</h2>
+  <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+    
+    <article class="overflow-hidden rounded-xl border border-cabinet-700 bg-cabinet-900 transition hover:border-bulb-500/50 group">
+      <div class="relative h-48 w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&q=80&w=800" alt="Arcade cabinet and pinball machine" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80">
+        <div class="absolute inset-0 bg-gradient-to-t from-cabinet-900 to-transparent"></div>
+      </div>
+      <div class="p-6 pt-2">
+        <h3 class="font-display text-xl font-semibold text-bulb-400">Arcade &amp; Pinball Restoration</h3>
+        <p class="mt-2 leading-relaxed text-slate-400">Solid-state and electromechanical pinball repair, flipper rebuilds, and arcade cabinet restoration, including safe CRT discharging and CRT rebuilds.</p>
+      </div>
+    </article>
+
+    <article class="overflow-hidden rounded-xl border border-cabinet-700 bg-cabinet-900 transition hover:border-silicon-500/50 group">
+      <div class="relative h-48 w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=80&w=800" alt="High performance PC components and motherboard" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80">
+        <div class="absolute inset-0 bg-gradient-to-t from-cabinet-900 to-transparent"></div>
+      </div>
+      <div class="p-6 pt-2">
+        <h3 class="font-display text-xl font-semibold text-silicon-400">PC, VR &amp; Electronics</h3>
+        <p class="mt-2 leading-relaxed text-slate-400">Micro-soldering, motherboard diagnostics, and custom gaming rigs, plus VR headset and electronics repair.</p>
+      </div>
+    </article>
+
+    <article class="overflow-hidden rounded-xl border border-cabinet-700 bg-cabinet-900 transition hover:border-silicon-500/50 group">
+      <div class="relative h-48 w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1555661530-68c8e98db4e6?auto=format&fit=crop&q=80&w=800" alt="Custom electronic fabrication and microcontrollers" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80">
+        <div class="absolute inset-0 bg-gradient-to-t from-cabinet-900 to-transparent"></div>
+      </div>
+      <div class="p-6 pt-2">
+        <h3 class="font-display text-xl font-semibold text-silicon-400">Custom Fabrication</h3>
+        <p class="mt-2 leading-relaxed text-slate-400">Built-from-scratch multicades, ESP32 microcontroller projects, and custom software for your cabinet or game room.</p>
+      </div>
+    </article>
+
+    <article class="overflow-hidden rounded-xl border border-cabinet-700 bg-cabinet-900 transition hover:border-bulb-500/50 group">
+      <div class="relative h-48 w-full overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&q=80&w=800" alt="Commercial arcade game room" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105 group-hover:opacity-80">
+        <div class="absolute inset-0 bg-gradient-to-t from-cabinet-900 to-transparent"></div>
+      </div>
+      <div class="p-6 pt-2">
+        <h3 class="font-display text-xl font-semibold text-bulb-400">Commercial Game Rooms</h3>
+        <p class="mt-2 leading-relaxed text-slate-400">Preventative maintenance and heavy-duty staging for short-term rentals, bars, and arcades.</p>
+      </div>
+    </article>
+
+  </div>
+  <div class="mt-10">
+    <a href="#triage" class="font-display font-semibold text-bulb-400 underline decoration-bulb-600/50 underline-offset-4 hover:text-bulb-500">Request Service</a>
+  </div>
+</section>
+
+</main>
+
+<!-- 4. FOOTER -->
+<footer class="border-t border-cabinet-700/70 bg-cabinet-950">
+  <div class="mx-auto grid max-w-6xl gap-8 px-5 py-12 md:grid-cols-2">
+    <div>
+      <p class="font-display text-xl font-semibold text-white flex items-center gap-2">
+        <svg class="w-5 h-5 text-bulb-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Haffner Arcade &amp; Pinball Repair
+      </p>
+      <p class="mt-2 max-w-sm text-slate-400">Serving Stroudsburg, PA, the Poconos, and the Tri-State Area.</p>
+    </div>
+    <address class="not-italic text-slate-300">
+      <p>Repairs: <a href="#triage" class="text-silicon-400 hover:text-silicon-500 transition-colors">send a request through the form</a></p>
+      <p class="mt-2">Rentals and commercial emergencies: <a href="#triage" class="text-bulb-400 hover:text-bulb-500 transition-colors">open dispatch</a></p>
+    </address>
+  </div>
+  <div class="border-t border-cabinet-700/70 py-6 text-center text-sm text-slate-500">
+    &copy; <span id="year"></span> Haffner Arcade &amp; Pinball Repair - PC, VR &amp; Electronics Specialist
+  </div>
+</footer>
+
+<script>
+  // --- Dispatch number: never present in the page source; assembled only when Path B is opened ---
+  function revealDispatch() {
+    var slot = document.getElementById('dispatch-slot');
+    if (!slot || slot.firstChild) return;
+    var p = ['272', '318', '9238'];
+    var a = document.createElement('a');
+    a.href = 'tel:+1' + p.join('');
+    a.textContent = p.join('-');
+    a.className = 'inline-block font-display text-4xl font-bold tracking-tight text-bulb-400 hover:text-bulb-500 sm:text-6xl drop-shadow-[0_0_15px_rgba(255,191,71,0.3)] transition-all';
+    slot.appendChild(a);
+  }
+
+  // --- Triage toggle: one path visible at a time ---
+  (function () {
+    var buttons = document.querySelectorAll('.path-btn');
+    var panels = { a: document.getElementById('path-a'), b: document.getElementById('path-b') };
+    var active = { a: 'border-silicon-500 bg-cabinet-700/80 shadow-[0_0_30px_-5px_rgba(79,216,255,0.15)]', b: 'border-bulb-500 bg-cabinet-700/80 shadow-[0_0_30px_-5px_rgba(255,191,71,0.15)]' };
+
+    function show(key) {
+      Object.keys(panels).forEach(function (k) { panels[k].hidden = (k !== key); });
+      buttons.forEach(function (btn) {
+        var k = btn.dataset.path, on = (k === key);
+        btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        active[k].split(' ').forEach(function (c) { btn.classList.toggle(c, on); });
+      });
+      if (key === 'b') revealDispatch();
+      panels[key].scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+    }
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () { show(btn.dataset.path); });
+    });
+  })();
+
+  // --- Formspree: submit in place, always show a visible result ---
+  (function () {
+    var form = document.getElementById('repair-form');
+    var status = document.getElementById('form-status');
+    var btn = document.getElementById('submit-btn');
+
+    function say(ok, text) {
+      status.className = 'sm:col-span-2 rounded-md border px-4 py-3 text-base ' +
+        (ok ? 'border-silicon-500/60 bg-silicon-500/10 text-silicon-400'
+            : 'border-bulb-500/60 bg-bulb-500/10 text-bulb-400');
+      status.textContent = text;
+      status.scrollIntoView({ block: 'nearest' });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      btn.disabled = true; btn.textContent = 'Sending...';
+      status.className = 'hidden';
+
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (data) {
+            if (r.ok) {
+              form.reset();
+              say(true, 'Request sent. Zak will reply by email.');
+            } else {
+              var detail = (data.errors && data.errors.map(function (x) { return x.message; }).join(' ')) || data.error || '';
+              say(false, 'The form service rejected the request (' + r.status + '). ' + detail);
+            }
+          });
+        })
+        .catch(function () {
+          say(false, 'Could not reach the form service. Check your connection and try again. If you opened this file from your computer, deploy it first, since browsers often block form posts from local files.');
+        })
+        .finally(function () { btn.disabled = false; btn.textContent = 'Send repair request'; });
+    });
+  })();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
